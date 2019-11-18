@@ -13,10 +13,10 @@
                        Chinese = s.Chinese,
                        English = s.English,
                        Math = s.Math,
-                       Total = s.Chinese + s.English +s.Math
+                       Total = s.Chinese + s.English + s.Math
                    };
     //找出最高總分
-    int topScore = Students.Max(s=>s.Total);
+    int topScore = Students.Max(s => s.Total);
 
 }
 
@@ -31,9 +31,6 @@
         <li>如果總成績第一名者,以黃色顯示</li>
     </ol>
 </div>
-
-
-
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -48,65 +45,52 @@
     <tbody>
         @foreach (var m in Students)
         {
-            <tr>
-                <td>@Html.DisplayFor(x => m.Id)</td>
-                <td>@Html.DisplayFor(x => m.Name)</td>
+            var total = m.Chinese + m.English + m.Math;
 
-                <!--中文-->
-                @if (m.Chinese < 60)
-                {
-                    <td class="poor">@Html.DisplayFor(x => m.Chinese)</td>
-                }
-                else if (m.Chinese >= 95)
-                {
-                    <td class="excellent">@Html.DisplayFor(x => m.Chinese)</td>
-                }
-                else
-                {
-                    <td>@Html.DisplayFor(x => m.Chinese)</td>
-                }
+        <tr>
+            <td>@Html.DisplayFor(x => m.Id)</td>
+            <td>@Html.DisplayFor(x => m.Name)</td>
 
-                <!--英文-->
-                @if (m.English < 60)
-                {
-                    <td class="poor">@Html.DisplayFor(x => m.English)</td>
-                }
-                else if (m.English >= 95)
-                {
-                    <td class="excellent">@Html.DisplayFor(x => m.English)</td>
-                }
-                else
-                {
-                    <td>@Html.DisplayFor(x => m.English)</td>
-                }
+            <!--中文-->
+            @DisplayScore(m.Chinese)
 
-                <!--數學-->
-                @if (m.Math < 60)
-                {
-                    <td class="poor">@Html.DisplayFor(x => m.Math)</td>
-                }
-                else if (m.Math >= 95)
-                {
-                    <td class="excellent">@Html.DisplayFor(x => m.Math)</td>
-                }
-                else
-                {
-                    <td>@Html.DisplayFor(x => m.Math)</td>
-                }
+            <!--英文-->
+            @DisplayScore(m.English)
 
-                @if (m.Total == topScore)
-                {
-                    <!--總分最高者-->
-                    <td class="top1">@Html.DisplayFor(x => m.Total)</td>
-                }
-                else
-                {
-                    <td>@Html.DisplayFor(x => m.Total)</td>
-                }
-            </tr>
+            <!--數學-->
+            @DisplayScore(m.Math)
+
+            <!--計算總分-->
+            @if (m.Total == topScore)
+            {
+                <!--總分最高者-->
+                <td class="top1">@Html.DisplayFor(x => m.Total)</td>
+            }
+            else
+            {
+                <td>@Html.DisplayFor(x => m.Total)</td>
+            }
+        </tr>
         }
     </tbody>
+
 </table>
+
+@helper DisplayScore(int score)
+{
+    if (score < 60)
+    {
+        <td class="poor">@score</td>
+    }
+    else if (score >= 95)
+    {
+        <td class="excellent">@score</td>
+    }
+    else
+    {
+        <td>@score</td>
+    }
+}
 
 
 @section topCSS{

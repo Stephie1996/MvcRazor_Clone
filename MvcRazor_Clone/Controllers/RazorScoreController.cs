@@ -59,6 +59,11 @@ namespace MvcRazor_Clone.Controllers
             return View(students);
         }
 
+        public ActionResult ScoreRazorHelper()
+        {
+            return View(students);
+        }
+
     }
       
 }
