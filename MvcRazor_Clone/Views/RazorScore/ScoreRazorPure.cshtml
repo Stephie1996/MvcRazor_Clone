@@ -1,9 +1,26 @@
-﻿@model IEnumerable<MvcRazor_Clone.Models.Student>
+﻿@using MvcRazor_Clone.Models;
+@model IEnumerable<MvcRazor_Clone.Models.Student>
 
 @{
     ViewBag.Title = "學生期中考成績";
-    var topId = ViewBag.TopId;
+
+    //計算所有學生總分
+    var Students = from s in Model
+                   select new Student
+                   {
+                       Id = s.Id,
+                       Name = s.Name,
+                       Chinese = s.Chinese,
+                       English = s.English,
+                       Math = s.Math,
+                       Total = s.Chinese + s.English +s.Math
+                   };
+    //找出最高總分
+    int topScore = Students.Max(s=>s.Total);
+
 }
+
+
 
 <div class="jumbotron alert-success">
     <h2>學生期中考成績</h2>
@@ -14,6 +31,8 @@
         <li>如果總成績第一名者,以黃色顯示</li>
     </ol>
 </div>
+
+
 
 <table class="table table-bordered table-striped">
     <thead>
@@ -27,7 +46,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var m in Model)
+        @foreach (var m in Students)
         {
             <tr>
                 <td>@Html.DisplayFor(x => m.Id)</td>
@@ -75,8 +94,7 @@
                     <td>@Html.DisplayFor(x => m.Math)</td>
                 }
 
-                <!--顯示總分-->
-                @if (m.Id == ViewBag.topId)
+                @if (m.Total == topScore)
                 {
                     <!--總分最高者-->
                     <td class="top1">@Html.DisplayFor(x => m.Total)</td>
@@ -90,32 +108,36 @@
     </tbody>
 </table>
 
+
 @section topCSS{
     <style type="text/css">
-        /*設定Table 欄位標題顏色*/
+        /*設定Table欄位標題顏色*/
         th {
             color: white;
-            background-color: slategrey;
+            background-color: black;
             text-align: center;
         }
-        /*設定Table 資料列Hover 時的光棒效果*/
+
+        /*設定Table資料列Hover時的光棒效果*/
         .table > tbody > tr:hover {
             background-color: antiquewhite !important;
         }
+
         /*成績不及格之CSS*/
         .poor {
             color: white !important;
-            background-color: lightcoral !important;
+            background-color: red !important;
         }
+
         /*成績優秀之CSS*/
         .excellent {
-             color: white !important;
-            background-color: cadetblue !important;
+            background-color: aqua !important;
         }
+
         /*總分第一名之CSS*/
         .top1 {
-            background-color: blanchedalmond !important;
-            border: 2px dashed gray !important;
+            background-color: yellow !important;
+            border: 2px dashed black !important;
             font-weight: 900;
             font-size: 1.2em;
         }
@@ -125,3 +147,4 @@
             }
     </style>
 }
+

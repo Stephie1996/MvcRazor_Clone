@@ -53,6 +53,12 @@ namespace MvcRazor_Clone.Controllers
             ViewBag.TopId = Convert.ToInt32(topId);
             return View(students);    
         }
+
+        public ActionResult ScoreRazorPure()
+        {
+            return View(students);
+        }
+
     }
       
 }
